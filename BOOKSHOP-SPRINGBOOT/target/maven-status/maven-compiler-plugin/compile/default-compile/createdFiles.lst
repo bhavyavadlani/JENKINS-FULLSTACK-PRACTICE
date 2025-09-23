@@ -2,3 +2,4 @@ com/example/bookshop/model/Book.class
 com/example/bookshop/controller/BookController.class
 com/example/bookshop/BookshopSpringbootApplication.class
 com/example/bookshop/repository/BookRepository.class
+com/example/bookshop/ServletInitializer.class
