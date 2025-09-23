@@ -1,4 +1,5 @@
 com/example/bookshop/BookshopApplication.class
+com/example/bookshop/controller/HomeController.class
 com/example/bookshop/model/Book.class
 com/example/bookshop/controller/BookController.class
 com/example/bookshop/repository/BookRepository.class
