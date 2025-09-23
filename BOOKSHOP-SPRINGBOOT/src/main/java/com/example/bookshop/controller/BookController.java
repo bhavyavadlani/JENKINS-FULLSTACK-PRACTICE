@@ -21,6 +21,10 @@ public class BookController {
     public List<Book> getAll() {
         return repo.findAll();
     }
+    @GetMapping("/{id}")
+public Book getOne(@PathVariable Long id) {
+    return repo.findById(id).orElse(null);
+}
 
     @PostMapping
     public Book create(@RequestBody Book book) {

@@ -8,6 +8,6 @@ public class HomeController {
 
     @GetMapping("/")
     public String home() {
-        return "✅ Bookshop Backend is running on Tomcat!";
+        return "Welcome to Bookshop Backend";
     }
 }

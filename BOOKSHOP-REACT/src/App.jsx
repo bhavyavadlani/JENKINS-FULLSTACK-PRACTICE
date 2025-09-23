@@ -3,8 +3,6 @@ import './App.css'
 
 const API_BASE_URL = "http://localhost:2027/bookshop-springboot";
 const API = `${API_BASE_URL}/api/books`;
- 
-
 
 export default function App() {
   const [books, setBooks] = useState([])
