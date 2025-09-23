@@ -7,23 +7,9 @@ pipeline {
     }
 
     stages {
-        stage('Print Git Commit') {
+        stage('Checkout') {
             steps {
-                sh 'git rev-parse HEAD'
-            }
-        }
-
-        stage('Check Node, NPM & Maven') {
-            steps {
-                sh '''
-                which node || echo "node not found"
-                which npm || echo "npm not found"
-                node -v || echo "node version unknown"
-                npm -v || echo "npm version unknown"
-
-                which mvn || echo "mvn not found"
-                mvn -v || echo "mvn version unknown"
-                '''
+                checkout scm
             }
         }
 
@@ -38,15 +24,13 @@ pipeline {
             }
         }
 
-        stage('Deploy Frontend to Tomcat') {
+        stage('Deploy Frontend') {
             steps {
                 sh '''
-                REACT_DEPLOY_DIR="$TOMCAT_HOME/webapps/bookshop"
-
-                rm -rf "$REACT_DEPLOY_DIR"
-                mkdir -p "$REACT_DEPLOY_DIR"
-
-                cp -R BOOKSHOP-REACT/dist/* "$REACT_DEPLOY_DIR"
+                FRONTEND_DIR="$TOMCAT_HOME/webapps/bookshop"
+                rm -rf "$FRONTEND_DIR"
+                mkdir -p "$FRONTEND_DIR"
+                cp -R BOOKSHOP-REACT/dist/* "$FRONTEND_DIR"
                 '''
             }
         }
@@ -59,21 +43,25 @@ pipeline {
             }
         }
 
-        stage('Deploy Backend to Tomcat') {
+        stage('Deploy Backend WAR to Tomcat') {
             steps {
                 sh '''
                 WAR_FILE="BOOKSHOP-SPRINGBOOT/target/bookshop-springboot-0.0.1-SNAPSHOT.war"
-                DEPLOY_DIR="$TOMCAT_HOME/webapps"
-
-                # Remove old deployment
-                rm -rf "$DEPLOY_DIR/bookshop-springboot" "$DEPLOY_DIR/bookshop-springboot.war"
-
-                # Copy new WAR
-                cp "$WAR_FILE" "$DEPLOY_DIR/bookshop-springboot.war"
+                cp "$WAR_FILE" "$TOMCAT_HOME/webapps/bookshop-springboot.war"
                 '''
             }
         }
-    
+
+        stage('Restart Tomcat') {
+            steps {
+                sh '''
+                $TOMCAT_HOME/bin/shutdown.sh || true
+                sleep 3
+                $TOMCAT_HOME/bin/startup.sh
+                '''
+            }
+        }
+    }  // 👈 closes stages
 
     post {
         success {
@@ -83,5 +71,4 @@ pipeline {
             echo ' Pipeline Failed.'
         }
     }
-}
 }
