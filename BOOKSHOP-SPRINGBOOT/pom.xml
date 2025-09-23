@@ -7,7 +7,7 @@
     <groupId>com.example</groupId>
     <artifactId>bookshop-springboot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>   <!-- 👈 IMPORTANT -->
+    <packaging>war</packaging>
 
     <name>bookshop-springboot</name>
     <description>Bookshop Spring Boot project</description>
@@ -16,7 +16,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.1.4</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <properties>
@@ -24,7 +24,7 @@
     </properties>
 
     <dependencies>
-        <!-- Core Spring Boot Starter -->
+        <!-- Core Spring Boot -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -36,24 +36,30 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- JPA (Hibernate + DB) -->
+        <!-- JPA + Hibernate -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!-- Database (H2 for testing, replace with MySQL/Postgres if needed) -->
+        <!-- ✅ Correct MySQL Driver -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Tomcat as PROVIDED (because external Tomcat runs it) -->
+        <!-- Validation (Optional) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- Lombok (Optional) -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
@@ -63,7 +69,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <skip>true</skip> <!-- Skip repackage because we want WAR -->
+                    <skip>true</skip> 
                 </configuration>
             </plugin>
         </plugins>

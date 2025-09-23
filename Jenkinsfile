@@ -51,7 +51,7 @@ pipeline {
             }
         }
 
-        stage('Build Backend') {
+        stage('Build Backend WAR') {
             steps {
                 dir('BOOKSHOP-SPRINGBOOT') {
                     sh 'mvn clean package -DskipTests'
@@ -59,28 +59,29 @@ pipeline {
             }
         }
 
-        stage('Deploy Backend (Spring Boot)') {
+        stage('Deploy Backend to Tomcat') {
             steps {
                 sh '''
-                JAR_FILE="BOOKSHOP-SPRINGBOOT/target/bookshop-springboot-0.0.1-SNAPSHOT.jar"
+                WAR_FILE="BOOKSHOP-SPRINGBOOT/target/bookshop-springboot-0.0.1-SNAPSHOT.war"
+                DEPLOY_DIR="$TOMCAT_HOME/webapps"
 
-                # Kill old backend if running
-                pkill -f "bookshop-springboot-0.0.1-SNAPSHOT.jar" || true
+                # Remove old deployment
+                rm -rf "$DEPLOY_DIR/bookshop-springboot" "$DEPLOY_DIR/bookshop-springboot.war"
 
-                # Start backend on port 9090
-                nohup java -jar "$JAR_FILE" --server.port=9090 > "$WORKSPACE/backend.log" 2>&1 &
+                # Copy new WAR
+                cp "$WAR_FILE" "$DEPLOY_DIR/bookshop-springboot.war"
                 '''
             }
         }
-
-    }
+    
 
     post {
         success {
-            echo ' Deployment Successful!'
+            echo 'Deployment Successful!'
         }
         failure {
             echo ' Pipeline Failed.'
         }
     }
+}
 }

@@ -3,35 +3,17 @@ package com.example.bookshop.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "books")
 public class Book {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String title;
-
-    @Column(nullable = false)
     private String author;
+    private double price;
+    private int stock;
 
-    private Double price;
-    private Integer stock;
-
-    // ✅ Default constructor (JPA requires this)
-    public Book() {}
-
-    // ✅ All-args constructor
-    public Book(Long id, String title, String author, Double price, Integer stock) {
-        this.id = id;
-        this.title = title;
-        this.author = author;
-        this.price = price;
-        this.stock = stock;
-    }
-
-    // ✅ Getters and Setters
+    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -41,9 +23,9 @@ public class Book {
     public String getAuthor() { return author; }
     public void setAuthor(String author) { this.author = author; }
 
-    public Double getPrice() { return price; }
-    public void setPrice(Double price) { this.price = price; }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 
-    public Integer getStock() { return stock; }
-    public void setStock(Integer stock) { this.stock = stock; }
+    public int getStock() { return stock; }
+    public void setStock(int stock) { this.stock = stock; }
 }
