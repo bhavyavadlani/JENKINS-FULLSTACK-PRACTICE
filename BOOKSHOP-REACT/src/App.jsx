@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 
-const API_BASE_URL = "http://localhost:2027/bookshop-springboot/api/books";
-const API = `${API_BASE_URL}/api/books`;  
+const API_BASE_URL = "http://localhost:2027/bookshop-springboot";
+const API = `${API_BASE_URL}/api/books`;
+ 
 
 
 export default function App() {
